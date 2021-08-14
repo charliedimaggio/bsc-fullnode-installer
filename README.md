@@ -34,7 +34,7 @@ apt install unzip
 ```
 wget https://github.com/binance-chain/bsc/releases/download/v1.1.1-beta/mainnet.zip
 unzip mainnet.zip
-./geth_linux --datadir mainnet init genesis.jso
+./geth_linux --datadir mainnet init genesis.json
 ```
 
 # Setup systemd
