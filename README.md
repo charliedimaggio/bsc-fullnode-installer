@@ -73,5 +73,14 @@ systemctl start geth
 tail -f /home/geth/mainnet/bsc.log
 ```
 
+# How to Prune
+```
+systemctl stop geth 
+cd /home/geth
+./geth_linux snapshot prune-state --datadir ./mainnet
+chown -R geth.geth ./mainnet
+systemctl start geth
+```
+
 # Credits
-Ty PhatJay#4958
+The all procedures was written by PhatJay#4958.
