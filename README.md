@@ -15,7 +15,7 @@ cd /home/geth
 
 # Download The GETH
 ```
-wget https://github.com/binance-chain/bsc/releases/download/v1.1.2/geth_linux
+wget https://github.com/binance-chain/bsc/releases/download/v1.1.3/geth_linux
 chmod +x geth_linux
 ```
 
