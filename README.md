@@ -73,6 +73,11 @@ systemctl start geth
 tail -f /home/geth/mainnet/bsc.log
 ```
 
+# Show Sync State
+```
+./geth_linux attach http://localhost:8545 --exec eth.syncing
+```
+
 # How to Prune
 ```
 systemctl stop geth 
