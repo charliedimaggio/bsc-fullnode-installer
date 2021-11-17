@@ -15,13 +15,13 @@ cd /home/geth
 
 # Download The GETH
 ```
-wget https://github.com/binance-chain/bsc/releases/download/v1.1.4/geth_linux
+wget -O /home/geth/geth_linux https://github.com/binance-chain/bsc/releases/latest/download/geth_linux
 chmod +x geth_linux
 ```
 
 # Create `start.sh` File.
 ```
-echo "./geth_linux --config ./config.toml --datadir ./mainnet --cache 18000 --rpc.allow-unprotected-txs --txlookuplimit 0 --http --maxpeers 100 --ws --syncmode=snap --snapshot=false" > start.sh
+echo "./geth_linux --config ./config.toml --datadir ./mainnet --cache 18000 --rpc.allow-unprotected-txs --txlookuplimit 0 --http --maxpeers 100 --ws --syncmode=full --snapshot=false" > start.sh
 chmod +x start.sh
 ```
 
@@ -32,7 +32,7 @@ apt install unzip
 
 # Download Mainnet Configs
 ```
-wget https://github.com/binance-chain/bsc/releases/download/v1.1.4/mainnet.zip
+wget https://github.com/binance-chain/bsc/releases/latest/download/mainnet.zip
 unzip mainnet.zip
 ./geth_linux --datadir mainnet init genesis.json
 ```
@@ -70,14 +70,17 @@ systemctl start geth
 
 # Show logs
 ```
-tail -f /home/geth/mainnet/bsc.log
+tail -F /home/geth/mainnet/bsc.log
 ```
 
 # Show Sync State
 ```
 ./geth_linux attach http://localhost:8545 --exec eth.syncing
 ```
-
+Or use this command to calculate number of blocks you are behind by
+```
+./geth_linux attach http://localhost:8545 --exec 'eth.syncing.highestBlock-eth.syncing.currentBlock'
+```
 # How to Prune
 ```
 systemctl stop geth 
