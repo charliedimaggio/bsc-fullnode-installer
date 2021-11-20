@@ -83,17 +83,17 @@ systemctl enable geth
 ## Step 10 - Clean up /home/geth/mainnet/geth/
 
 
-We need to remove the files and folders that were created when we ran the genesis step (7) make sure that you remove the contents in the geth folder located here: /home/geth/mainnet/geth/
+We need to remove some of the files and folders that were created when we ran the genesis step (7)
 ```
 rm -rf /home/geth/mainnet/geth/*
 ```
 
 ## Step 11.1 - Download the tarball image
 
-This page should contain the latest image: [tarball snapshot](https://github.com/binance-chain/bsc-snapshots) - copy the URL for later use.
+This page should contain the latest image: [tarball snapshot](https://github.com/binance-chain/bsc-snapshots) - copy one of the geth.tar.gz URL's for later use.
 *For best performance please pick the endpoint that is geographically closest to your server*
 
-Use this command to download the file - remember to **keep the quotations** for the URL:
+Use this command to download the file - remember to **_keep the quotations_** for the URL:
 **DO NOT USE THIS EXAMPLE URL AS IT WILL BE SIGNIFICANTLY OUT OF DATE**
 ```
 wget -O /home/geth/mainnet/geth.tar.gz  "https://tf-dex-prod-public-snapshot.s3.amazonaws.com/geth-20211114.tar.gz?AWSAccessKeyId=AKIAYINE6SBQPUZDDRRO&Signature=xJJw%2BwbS%2B32IMg6KojKGPq1TwKw%3D&Expires=1639516490"
