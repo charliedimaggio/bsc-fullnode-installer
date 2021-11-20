@@ -133,7 +133,7 @@ cd /home/geth/mainnet && exec nohup wget "https://tf-dex-prod-public-snapshot.s3
 
 We need to remove two redundant patent folders "server/data-seed"
 ```
-tar --strip-components=2 -xzf /home/geth/mainnet/geth.tar.gz
+cd /home/geth/mainnet && exec nohup tar --strip-components=2 -xzf /home/geth/mainnet/geth.tar.gz
 ```
 
 ## Step 13 - Set geth as owner
