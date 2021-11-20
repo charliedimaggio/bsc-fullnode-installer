@@ -24,14 +24,14 @@ cd /home/geth
 ## Step 4 - Download geth_linux
 ```
 wget -O /home/geth/geth_linux https://github.com/binance-chain/bsc/releases/latest/download/geth_linux
-chmod +x geth_linux
+chmod +x /home/geth/geth_linux
 
 ```
 
 ## Step 5 - Create `start.sh` file.
 ```
 echo "./geth_linux --config ./config.toml --datadir ./mainnet --cache 18000 --rpc.allow-unprotected-txs --txlookuplimit 0 --http --maxpeers 100 --ws --syncmode=full --snapshot=false --diffsync" > /home/geth/start.sh
-chmod +x start.sh
+chmod +x /home/geth/start.sh
 
 ```
 
