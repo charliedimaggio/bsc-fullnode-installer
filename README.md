@@ -27,6 +27,7 @@ chmod +x start.sh
 
 # Install Unzip
 ```
+apt update
 apt install unzip
 ```
 
