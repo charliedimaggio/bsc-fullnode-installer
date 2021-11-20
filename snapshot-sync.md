@@ -6,51 +6,54 @@ This guide will attempt to address that.
 
 The first step is to prepare your environment so that it is ready for the snapshot:
 
-## Step 1 - Become Root
+## Step 1 - Become root
 ```
 sudo su
 ```
 
-## Step 2 - Create GETH User
+## Step 2 - Create geth user
 ```
-sudo useradd -m geth
+useradd -m geth
 ```
 
-## Step 3 - Switch To The New User's Home
+## Step 3 - Switch to geth home folder
 ```
 cd /home/geth
 ```
 
-## Step 4 - Download The GETH
+## Step 4 - Download geth_linux
 ```
 wget -O /home/geth/geth_linux https://github.com/binance-chain/bsc/releases/latest/download/geth_linux
 chmod +x geth_linux
+
 ```
 
-## Step 5 - Create `start.sh` File.
+## Step 5 - Create `start.sh` file.
 ```
-echo "./geth_linux --config ./config.toml --datadir ./mainnet --cache 18000 --rpc.allow-unprotected-txs --txlookuplimit 0 --http --maxpeers 100 --ws --syncmode=full --snapshot=false --diffsync" > start.sh
+echo "./geth_linux --config ./config.toml --datadir ./mainnet --cache 18000 --rpc.allow-unprotected-txs --txlookuplimit 0 --http --maxpeers 100 --ws --syncmode=full --snapshot=false --diffsync" > /home/geth/start.sh
 chmod +x start.sh
+
 ```
 
-## Step 6 - Install Unzip
+## Step 6 - Install unzip
 ```
 apt install unzip
 ```
 
-## Step 7 - Download Mainnet Configs
+## Step 7 - Download mainnet configs and initialize geth with genesis data
 ```
-wget https://github.com/binance-chain/bsc/releases/latest/download/mainnet.zip
-unzip mainnet.zip
-./geth_linux --datadir mainnet init genesis.json
+wget -O /home/geth/mainnet.zip https://github.com/binance-chain/bsc/releases/latest/download/mainnet.zip
+unzip /home/geth/mainnet.zip
+/home/geth/geth_linux --datadir mainnet init genesis.json
+
 ```
 
 ## Step 8 - Setup systemd
 ```
-sudo nano /lib/systemd/system/geth.service
+nano /lib/systemd/system/geth.service
 ```
 
-Then paste the following;
+Then paste the following:
 
 ```
 [Unit]
@@ -68,7 +71,9 @@ RestartSec=5
 WantedBy=default.target
 ```
 
-## Step 9 - Enable geth systemd service
+Save the file by pressing CTRL+O and then press enter. Exit nano by pressing CTRL+X
+
+## Step 9 - Give geth user ownership and enable geth systemd service
 
 ```
 chown -R geth.geth /home/geth/*
@@ -78,29 +83,12 @@ systemctl enable geth
 ## Step 10 - Clean up /home/geth/mainnet/geth/
 
 
-If you are modifying an existing server you will need to make sure that you remove the geth folder located in /home/geth/mainnet/
+We need to remove the files and folders that were created when we ran the genesis step (7) make sure that you remove the contents in the geth folder located here: /home/geth/mainnet/geth/
 ```
 rm -rf /home/geth/mainnet/geth/*
 ```
 
-## Step 11 - Prepare to download the tarball image
-
-Move bash to the following directory:
-```
-cd /home/geth
-```
-
-Make the mainnet folder if it does not already exist:
-```
-mkdir mainnet
-```
-
-Move to the mainnet directory:
-```
-cd mainnet 
-```
-
-## Step 12.1 - Download the tarball image
+## Step 11.1 - Download the tarball image
 
 This page should contain the latest image: [tarball snapshot](https://github.com/binance-chain/bsc-snapshots) - copy the URL for later use.
 *For best performance please pick the endpoint that is geographically closest to your server*
@@ -108,47 +96,47 @@ This page should contain the latest image: [tarball snapshot](https://github.com
 Use this command to download the file - remember to **keep the quotations** for the URL:
 **DO NOT USE THIS EXAMPLE URL AS IT WILL BE SIGNIFICANTLY OUT OF DATE**
 ```
-wget -O geth.tar.gz  "https://tf-dex-prod-public-snapshot.s3.amazonaws.com/geth-20211114.tar.gz?AWSAccessKeyId=AKIAYINE6SBQPUZDDRRO&Signature=xJJw%2BwbS%2B32IMg6KojKGPq1TwKw%3D&Expires=1639516490"
+wget -O /home/geth/mainnet/geth.tar.gz  "https://tf-dex-prod-public-snapshot.s3.amazonaws.com/geth-20211114.tar.gz?AWSAccessKeyId=AKIAYINE6SBQPUZDDRRO&Signature=xJJw%2BwbS%2B32IMg6KojKGPq1TwKw%3D&Expires=1639516490"
 ```
 
 If the download only partially downloads then you might be able to continue if you include the -c or --continue option before running wget again.
 Example command required to continue download:
 ```
-wget -cO geth.tar.gz  "
+wget -cO /home/geth/mainnet/geth.tar.gz  "
 https://tf-dex-prod-public-snapshot.s3.amazonaws.com/geth-20211114.tar.gz?AWSAccessKeyId=AKIAYINE6SBQPUZDDRRO&Signature=xJJw%2BwbS%2B32IMg6KojKGPq1TwKw%3D&Expires=1639516490"
 ```
 
 Once the download has finished you need to make sure that it matches the MD5 checksum mentioned on the website: [tarball snapshot](https://github.com/binance-chain/bsc-snapshots)
 ```
-md5sum geth.tar.gz
+md5sum /home/geth/mainnet/geth.tar.gz
 ```
 
-## Step 12.2 - Download and unpack the tarball image, but skip hash verification
+## Step 11.2 - Download and unpack the tarball image, but skip hash verification
 
-*Skip this step if you completed step 12.1*
+*Skip this step if you completed step 11.1*
 
-This command will download and unpack the snapshot at the same time. The output will not reflect the fact we used "strip-component=2" but the result should respect that flag. The only other concern is if the folder structure changes in future updates. It would be wise to cd /tmp and do a small trial run from there, just to make sure it is working as expected:
+This command will download and unpack the snapshot at the same time. The output will not reflect the fact we used "strip-component=2" but the result should respect that flag. The only other concern is if the folder structure changes in future updates.
 ```
-wget "https://tf-dex-prod-public-snapshot.s3.amazonaws.com/geth-20211114.tar.gz?AWSAccessKeyId=AKIAYINE6SBQPUZDDRRO&Signature=xJJw%2BwbS%2B32IMg6KojKGPq1TwKw%3D&Expires=1639516490" -qO - | tar --strip-components=2 -zxvf -
+cd /home/geth/mainnet && exec wget "https://tf-dex-prod-public-snapshot.s3.amazonaws.com/geth-20211114.tar.gz?AWSAccessKeyId=AKIAYINE6SBQPUZDDRRO&Signature=xJJw%2BwbS%2B32IMg6KojKGPq1TwKw%3D&Expires=1639516490" -qO - | tar --strip-components=2 -zxvf -
 ```
 
-## Step 13 - Unpack tarball
+## Step 12 - Unpack tarball
 
-*Skip this step if you completed step 12.2*
+*Skip this step if you completed step 11.2*
 
 We need to remove two redundant patent folders "server/data-seed"
 ```
-tar --strip-components=2 -xzf geth.tar.gz
+tar --strip-components=2 -xzf /home/geth/mainnet/geth.tar.gz
 ```
 
-## Step 14 - Set geth as owner
+## Step 13 - Set geth as owner
 
 Once the extraction has completed you will need to perform another chown command:
 ```
 chown -R geth.geth /home/geth/*
 ```
 
-## Step 15 - Start geth
+## Step 14 - Start geth
 
 Start the geth service:
 ```
