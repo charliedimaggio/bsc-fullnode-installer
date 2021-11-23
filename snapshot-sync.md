@@ -124,7 +124,8 @@ Use this command to download the file - remember to **_keep the quotations_** fo
 
 This command will download and unpack the snapshot at the same time. The output will not reflect the fact we used "strip-component=2" but the result should respect that flag. The only other concern is if the folder structure changes in future updates.
 ```
-cd /home/geth/mainnet && exec wget "https://tf-dex-prod-public-snapshot.s3.amazonaws.com/geth-20211114.tar.gz?AWSAccessKeyId=AKIAYINE6SBQPUZDDRRO&Signature=xJJw%2BwbS%2B32IMg6KojKGPq1TwKw%3D&Expires=1639516490" -O - | tar --strip-components=2 -zxf -
+cd /home/geth/mainnet
+wget "https://tf-dex-prod-public-snapshot.s3.amazonaws.com/geth-20211114.tar.gz?AWSAccessKeyId=AKIAYINE6SBQPUZDDRRO&Signature=xJJw%2BwbS%2B32IMg6KojKGPq1TwKw%3D&Expires=1639516490" -O - | tar --strip-components=2 -zxf -
 ```
 
 ## Step 12 - Unpack tarball
