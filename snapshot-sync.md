@@ -66,7 +66,8 @@ Type=simple
 WorkingDirectory=/home/geth
 ExecStart=/bin/bash /home/geth/start.sh
 Restart=on-failure
-RestartSec=5
+RestartSec=30
+TimeoutSec=300
 
 [Install]
 WantedBy=default.target
