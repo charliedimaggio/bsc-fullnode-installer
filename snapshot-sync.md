@@ -68,6 +68,8 @@ ExecStart=/bin/bash /home/geth/start.sh
 Restart=on-failure
 RestartSec=30
 TimeoutSec=300
+IOWeight=8000
+CPUWeight=8000
 
 [Install]
 WantedBy=default.target
@@ -92,6 +94,7 @@ rm -rf /home/geth/mainnet/geth/*
 
 ## Step 11.1 - Download the tarball image
 
+**_If you have less than 2TB space or are an advanced user then follow step 11.2_**
 This page should contain the latest image: [tarball snapshot](https://github.com/binance-chain/bsc-snapshots) - copy one of the geth.tar.gz URL's for later use.
 *For best performance please pick the endpoint that is geographically closest to your server*
 
@@ -109,13 +112,13 @@ https://tf-dex-prod-public-snapshot.s3.amazonaws.com/geth-20211114.tar.gz?AWSAcc
 ```
 
 Once the download has finished you need to make sure that it matches the MD5 checksum mentioned on the website: [tarball snapshot](https://github.com/binance-chain/bsc-snapshots)
+**_This command can take some time to run and you will not see a progress indicator_**
 ```
 md5sum /home/geth/mainnet/geth.tar.gz
 ```
 
-## Step 11.2 - Download and unpack the tarball image, but skip hash verification
-
-*Skip this step if you completed step 11.1*
+## Step 11.2 - Download and unpack the tarball image (advanced users)
+**_Skip this step if you completed step 11.1_**
 
 This page should contain the latest image: [tarball snapshot](https://github.com/binance-chain/bsc-snapshots) - copy one of the geth.tar.gz URL's for later use.
 *For best performance please pick the endpoint that is geographically closest to your server*
@@ -124,10 +127,13 @@ Use this command to download the file - remember to **_keep the quotations_** fo
 **DO NOT USE THIS EXAMPLE URL AS IT WILL BE SIGNIFICANTLY OUT OF DATE**
 
 This command will download and unpack the snapshot at the same time. The output will not reflect the fact we used "strip-component=2" but the result should respect that flag. The only other concern is if the folder structure changes in future updates.
+Additionally, this command now utilises a program called `screen`, so the process will not halt if you lose your connection.
 ```
 cd /home/geth/mainnet
-wget "https://tf-dex-prod-public-snapshot.s3.amazonaws.com/geth-20211114.tar.gz?AWSAccessKeyId=AKIYINE6SBQPUZDDRRO&Signature=xJJw%2BwbS%2B32IMg6KojKGPq1TwKw%3D&Expires=1639516490" -O - | tar --strip-components=2 -zxf -
+apt install screen
+screen -dm bash -c 'wget "https://tf-dex-prod-public-snapshot.s3-accelerate.amazonaws.com/geth-20211202.tar.gz?AWSAccessKeyId=AKIAYINE6SBQPUZDDRRO&Signature=e38bDFq%2BTlpgzXpZLkwvsDNyk%3D&Expires=1641059846" -O - | tar --strip-components=2 -zxf -'
 ```
+To attach to screen press `CTRL+r` and to detach `CTRL+a d`
 
 ## Step 12 - Unpack tarball
 
