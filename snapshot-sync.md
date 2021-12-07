@@ -95,6 +95,7 @@ rm -rf /home/geth/mainnet/geth/*
 ## Step 11.1 - Download the tarball image
 
 **_If you have less than 2TB space or are an advanced user then follow step 11.2_**
+
 This page should contain the latest image: [tarball snapshot](https://github.com/binance-chain/bsc-snapshots) - copy one of the geth.tar.gz URL's for later use.
 *For best performance please pick the endpoint that is geographically closest to your server*
 
