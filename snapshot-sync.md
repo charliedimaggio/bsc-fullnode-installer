@@ -30,7 +30,7 @@ chmod +x /home/geth/geth_linux
 
 ## Step 5 - Create `start.sh` file.
 ```
-echo "./geth_linux --config ./config.toml --datadir ./mainnet --cache 18000 --rpc.allow-unprotected-txs --txlookuplimit 0 --http --maxpeers 100 --ws --syncmode=full --snapshot=false --diffsync" > /home/geth/start.sh
+echo "./geth_linux --config ./config.toml --datadir ./mainnet --cache 18000 --rpc.allow-unprotected-txs --txlookuplimit 0 --http --maxpeers 100 --ws --syncmode=full --snapshot=true --diffsync" > /home/geth/start.sh
 chmod +x /home/geth/start.sh
 
 ```
