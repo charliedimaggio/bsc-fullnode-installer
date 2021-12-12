@@ -6,7 +6,7 @@ This guide will attempt to address that.
 
 The first step is to prepare your environment so that it is ready for the snapshot:
 
-## Step 1 - Become root
+## Step 1 - Become root (only required if you are not currently root)
 ```
 sudo su
 ```
@@ -158,3 +158,48 @@ Start the geth service:
 ```
 systemctl start geth
 ```
+
+## Step 15 - Now what?
+
+If you are unfamiliar with how to monitor the geth service and/or the syncing process
+
+Stop the geth service:
+```
+systemctl stop geth
+```
+
+Check the status of the geth service:
+```
+systemctl status geth
+```
+
+Check the journal log for errors or warnings from the geth service:
+```
+journalctl -u geth.service
+```
+
+Open the most recent geth log file:
+```
+nano /home/geth/mainnet/bsc.log
+```
+
+Monitor the sync process via tail:
+```
+tail -F /home/geth/mainnet/bsc.og
+```
+
+Check sync process via RPC:
+This command will return 'false' either when you are fully synced or if the startup process has not completed
+
+```
+/home/geth/geth_linux attach /home/geth/mainnet/geth.ipc --exec 'eth.syncing'
+```
+
+Check the performance of your storage:
+This command will test the read performance of your storage, as this is typically where most systems are weakest.
+```
+apt install fio -y
+fio -direct=1 -iodepth=1 -rw=randread -ioengine=libaio -bs=4k -size=1G -numjobs=1 -runtime=1000 -group_reporting -filename=iotest -name=Rand_Read_Testing
+```
+
+Additional information can be found on our discord server [TheCryptoFarm](https://discord.com/invite/H582fcrrvG) or the official [BSC Discord](https://discord.gg/ukfzpWpTHp)
