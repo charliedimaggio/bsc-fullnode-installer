@@ -21,8 +21,8 @@ chmod +x geth_linux
 
 # Create `start.sh` File.
 ```
-echo "./geth_linux --config ./config.toml --datadir ./mainnet --cache 18000 --rpc.allow-unprotected-txs --txlookuplimit 0 --http --maxpeers 100 --ws --syncmode=full --snapshot=false" > start.sh
-chmod +x start.sh
+echo "./geth_linux --config ./config.toml --datadir ./mainnet --cache 18000 --rpc.allow-unprotected-txs --txlookuplimit 0 --http --maxpeers 100 --ws --syncmode=full --snapshot=true --diffsync" > /home/geth/start.sh
+chmod +x /home/geth/start.sh
 ```
 
 # Install Unzip
@@ -34,8 +34,8 @@ apt install unzip
 # Download Mainnet Configs
 ```
 wget https://github.com/binance-chain/bsc/releases/latest/download/mainnet.zip
-unzip mainnet.zip
-./geth_linux --datadir mainnet init genesis.json
+unzip /home/geth/mainnet.zip
+/home/geth/geth_linux --datadir mainnet init genesis.json
 ```
 
 # Setup systemd
@@ -55,7 +55,10 @@ Type=simple
 WorkingDirectory=/home/geth
 ExecStart=/bin/bash /home/geth/start.sh
 Restart=on-failure
-RestartSec=5
+RestartSec=30
+TimeoutSec=300
+IOWeight=8000
+CPUWeight=8000
 
 [Install]
 WantedBy=default.target
@@ -91,5 +94,3 @@ chown -R geth.geth ./mainnet
 systemctl start geth
 ```
 
-# Credits
-The all procedures was written by PhatJay#4958.
