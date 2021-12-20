@@ -132,7 +132,7 @@ Additionally, this command now utilises a program called `screen`, so the proces
 ```
 cd /home/geth/mainnet
 apt install screen
-screen -dm bash -c 'wget "https://tf-dex-prod-public-snapshot.s3-accelerate.amazonaws.com/geth-20211202.tar.gz?AWSAccessKeyId=AKIAYINE6SBQPUZDDRRO&Signature=e38bDFq%2BTlpgzXpZLkwvsDNyk%3D&Expires=1641059846" -O - | tar --strip-components=2 -I lz4 -zxf -'
+screen -dm bash -c 'wget "https://tf-dex-prod-public-snapshot.s3-accelerate.amazonaws.com/geth-20211202.tar.gz?AWSAccessKeyId=AKIAYINE6SBQPUZDDRRO&Signature=e38bDFq%2BTlpgzXpZLkwvsDNyk%3D&Expires=1641059846" -O - | tar -I lz4 --strip-components=2 -xf -'
 ```
 To attach to screen press `CTRL+r` and to detach `CTRL+a d`
 
@@ -142,7 +142,7 @@ To attach to screen press `CTRL+r` and to detach `CTRL+a d`
 
 We need to remove two redundant patent folders "server/data-seed"
 ```
-cd /home/geth/mainnet && exec nohup tar -I lz4 --strip-components=2 -xzf /home/geth/mainnet/geth.tar.lz4
+cd /home/geth/mainnet && exec nohup tar -I lz4 --strip-components=2 -xf /home/geth/mainnet/geth.tar.lz4
 ```
 
 ## Step 13 - Set geth as owner
