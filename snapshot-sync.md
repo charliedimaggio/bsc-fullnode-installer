@@ -102,20 +102,20 @@ This page should contain the latest image: [tarball snapshot](https://github.com
 Use this command to download the file - remember to **_keep the quotations_** for the URL:
 **DO NOT USE THIS EXAMPLE URL AS IT WILL BE SIGNIFICANTLY OUT OF DATE**
 ```
-wget -O /home/geth/mainnet/geth.tar.gz  "https://tf-dex-prod-public-snapshot.s3.amazonaws.com/geth-20211114.tar.gz?AWSAccessKeyId=AKIAYIN6SBQPUZDDRRO&Signature=xJJw%2BwbS%2B32IMg6KojKGPq1TwKw%3D&Expires=1639516490"
+wget -O /home/geth/mainnet/geth.tar.lz4  "https://tf-dex-prod-public-snapshot.s3.amazonaws.com/geth-20211114.tar.gz?AWSAccessKeyId=AKIAYIN6SBQPUZDDRRO&Signature=xJJw%2BwbS%2B32IMg6KojKGPq1TwKw%3D&Expires=1639516490"
 ```
 
 If the download only partially downloads then you might be able to continue if you include the -c or --continue option before running wget again.
 Example command required to continue download:
 ```
-wget -cO /home/geth/mainnet/geth.tar.gz  "
+wget -cO /home/geth/mainnet/geth.tar.lz4  "
 https://tf-dex-prod-public-snapshot.s3.amazonaws.com/geth-20211114.tar.gz?AWSAccessKeyId=AKIAYINE6SBQPUZDRRO&Signature=xJJw%2BwbS%2B32IMg6KojKGPq1TwKw%3D&Expires=1639516490"
 ```
 
 Once the download has finished you need to make sure that it matches the MD5 checksum mentioned on the website: [tarball snapshot](https://github.com/binance-chain/bsc-snapshots)
 **_This command can take some time to run and you will not see a progress indicator_**
 ```
-md5sum /home/geth/mainnet/geth.tar.gz
+md5sum /home/geth/mainnet/geth.tar.lz4
 ```
 
 ## Step 11.2 - Download and unpack the tarball image (advanced users)
@@ -132,7 +132,7 @@ Additionally, this command now utilises a program called `screen`, so the proces
 ```
 cd /home/geth/mainnet
 apt install screen
-screen -dm bash -c 'wget "https://tf-dex-prod-public-snapshot.s3-accelerate.amazonaws.com/geth-20211202.tar.gz?AWSAccessKeyId=AKIAYINE6SBQPUZDDRRO&Signature=e38bDFq%2BTlpgzXpZLkwvsDNyk%3D&Expires=1641059846" -O - | tar --strip-components=2 -zxf -'
+screen -dm bash -c 'wget "https://tf-dex-prod-public-snapshot.s3-accelerate.amazonaws.com/geth-20211202.tar.gz?AWSAccessKeyId=AKIAYINE6SBQPUZDDRRO&Signature=e38bDFq%2BTlpgzXpZLkwvsDNyk%3D&Expires=1641059846" -O - | tar --strip-components=2 -I lz4 -zxf -'
 ```
 To attach to screen press `CTRL+r` and to detach `CTRL+a d`
 
@@ -142,7 +142,7 @@ To attach to screen press `CTRL+r` and to detach `CTRL+a d`
 
 We need to remove two redundant patent folders "server/data-seed"
 ```
-cd /home/geth/mainnet && exec nohup tar --strip-components=2 -xzf /home/geth/mainnet/geth.tar.gz
+cd /home/geth/mainnet && exec nohup tar -I lz4 --strip-components=2 -xzf /home/geth/mainnet/geth.tar.lz4
 ```
 
 ## Step 13 - Set geth as owner
