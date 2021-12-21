@@ -131,7 +131,7 @@ This command will download and unpack the snapshot at the same time. The output 
 Additionally, this command now utilises a program called `screen`, so the process will not halt if you lose your connection.
 ```
 cd /home/geth/mainnet
-apt install screen
+apt install screen lz4 -y
 screen -dm bash -c 'wget "https://tf-dex-prod-public-snapshot.s3-accelerate.amazonaws.com/geth-20211202.tar.gz?AWSAccessKeyId=AKIAYINE6SBQPUZDDRRO&Signature=e38bDFq%2BTlpgzXpZLkwvsDNyk%3D&Expires=1641059846" -O - | tar -I lz4 --strip-components=2 -xf -'
 ```
 To attach to screen press `CTRL+r` and to detach `CTRL+a d`
