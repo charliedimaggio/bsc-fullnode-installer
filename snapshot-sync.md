@@ -142,6 +142,7 @@ To attach to screen press `CTRL+r` and to detach `CTRL+a d`
 
 We need to remove two redundant patent folders "server/data-seed"
 ```
+apt install lz4 -y
 cd /home/geth/mainnet && exec nohup tar -I lz4 --strip-components=2 -xf /home/geth/mainnet/geth.tar.lz4
 ```
 
