@@ -44,7 +44,7 @@ apt install unzip
 ## Step 7 - Download mainnet configs and initialize geth with genesis data
 ```
 wget -O /home/geth/mainnet.zip https://github.com/binance-chain/bsc/releases/latest/download/mainnet.zip
-unzip /home/geth/mainnet.zip
+unzip -j /home/geth/mainnet.zip
 /home/geth/geth_linux --datadir mainnet init genesis.json
 
 ```
