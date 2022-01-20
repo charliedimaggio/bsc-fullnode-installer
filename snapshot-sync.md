@@ -186,7 +186,7 @@ nano /home/geth/mainnet/bsc.log
 
 Monitor the sync process via tail:
 ```
-tail -F /home/geth/mainnet/bsc.og
+tail -F /home/geth/mainnet/bsc.log
 ```
 
 Check sync process via RPC:
