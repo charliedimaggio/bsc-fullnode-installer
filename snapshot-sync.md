@@ -203,4 +203,14 @@ apt install fio -y
 fio -direct=1 -iodepth=1 -rw=randread -ioengine=libaio -bs=4k -size=1G -numjobs=1 -runtime=1000 -group_reporting -filename=iotest -name=Rand_Read_Testing
 ```
 
+Upgrade geth to the latest version:
+```
+systemctl stop geth
+rm /home/geth/geth_linux
+wget -O /home/geth/geth_linux https://github.com/binance-chain/bsc/releases/latest/download/geth_linux
+chmod +x /home/geth/geth_linux
+chown geth.geth /home/geth/geth_linux
+systemctl start geth
+```
+
 Additional information can be found on our discord server [TheCryptoFarm](https://discord.com/invite/H582fcrrvG) or the official [BSC Discord](https://discord.gg/ukfzpWpTHp)
