@@ -134,7 +134,7 @@ cd /home/geth/mainnet
 apt install screen lz4 -y
 screen -dm bash -c 'wget "https://tf-dex-prod-public-snapshot.s3-accelerate.amazonaws.com/geth-20211202.tar.gz?AWSAccessKeyId=AKIAYINE6SBQPUZDDRRO&Signature=e38bDFq%2BTlpgzXpZLkwvsDNyk%3D&Expires=1641059846" -O - | tar -I lz4 --strip-components=2 -xf -'
 ```
-To attach to screen press `CTRL+r` and to detach `CTRL+a d`
+To attach to screen type `screen -r` and to detach press `CTRL+a d`
 
 ## Step 12 - Unpack tarball
 
