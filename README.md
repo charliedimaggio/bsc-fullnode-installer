@@ -1,3 +1,6 @@
+ # Recommended: [snapshot image guide](https://github.com/charliedimaggio/bsc-fullnode-installer/blob/main/snapshot-sync.md)
+
+
 # Become Root
 ```
 sudo su
