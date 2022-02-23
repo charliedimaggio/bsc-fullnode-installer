@@ -23,7 +23,7 @@ cd /home/geth
 
 ## Step 4 - Download geth_linux
 ```
-wget -O /home/geth/geth_linux https://github.com/binance-chain/bsc/releases/latest/download/geth_linux
+wget -O /home/geth/geth_linux https://github.com/bnb-chain/bsc/releases/latest/download/geth_linux
 chmod +x /home/geth/geth_linux
 
 ```
@@ -43,7 +43,7 @@ apt install unzip
 
 ## Step 7 - Download mainnet configs and initialize geth with genesis data
 ```
-wget -O /home/geth/mainnet.zip https://github.com/binance-chain/bsc/releases/latest/download/mainnet.zip
+wget -O /home/geth/mainnet.zip https://github.com/bnb-chain/bsc/releases/latest/download/mainnet.zip
 unzip -j /home/geth/mainnet.zip
 /home/geth/geth_linux --datadir mainnet init genesis.json
 
@@ -92,11 +92,30 @@ We need to remove some of the files and folders that were created when we ran th
 rm -rf /home/geth/mainnet/geth/*
 ```
 
-## Step 11.1 - Download the tarball image
+## Step 11 - Stream and unpack the tarball image (saves considerable time and space)
+**If you have an unreliable connection or this step fails then please try [Alternative to Step 11](https://github.com/charliedimaggio/bsc-fullnode-installer/edit/main/snapshot-sync.md#alternative-to-step-11---download-the-tarball-image) **
 
-**_If you have less than 2TB space or are an advanced user then follow step 11.2_**
+This page should contain the latest image: [tarball snapshot](https://github.com/bnb-chain/bsc-snapshots) - copy one of the geth.tar.gz URL's for later use.
+*For best performance please pick the endpoint that is geographically closest to your server*
 
-This page should contain the latest image: [tarball snapshot](https://github.com/binance-chain/bsc-snapshots) - copy one of the geth.tar.gz URL's for later use.
+Use this command to download the file - remember to **_keep the quotations_** for the URL:
+**DO NOT USE THIS EXAMPLE URL AS IT WILL BE SIGNIFICANTLY OUT OF DATE**
+
+This command will download and unpack the snapshot at the same time. The output will not reflect the fact we used "strip-component=2" but the result should respect that flag. The only other concern is if the folder structure changes in future updates.
+Additionally, this command now utilises a program called `screen`, so the process will not halt if you lose your connection.
+```
+cd /home/geth/mainnet
+apt install screen lz4 -y
+screen -dm bash -c 'wget "https://tf-dex-prod-public-snapshot.s3-accelerate.amazonaws.com/geth-20211202.tar.gz?AWSAccessKeyId=AKIAYINE6SBQPUZDDRRO&Signature=e38bDFq%2BTlpgzXpZLkwvsDNyk%3D&Expires=1641059846" -O - | tar -I lz4 --strip-components=2 -xf -'
+```
+To attach to screen type `screen -r` and to detach press `CTRL+a d`
+## Alternative to Step 11 - Download the tarball image
+<details><summary>Click to expand</summary><blockquote>
+<p>
+
+**_The snapshot is currently 1.2TB (Feb 2022) and you require double that to unpack the file. Please bear this in mind_**
+
+This page should contain the latest image: [tarball snapshot](https://github.com/bnb-chain/bsc-snapshots) - copy one of the geth.tar.gz URL's for later use.
 *For best performance please pick the endpoint that is geographically closest to your server*
 
 Use this command to download the file - remember to **_keep the quotations_** for the URL:
@@ -112,55 +131,35 @@ wget -cO /home/geth/mainnet/geth.tar.lz4  "
 https://tf-dex-prod-public-snapshot.s3.amazonaws.com/geth-20211114.tar.gz?AWSAccessKeyId=AKIAYINE6SBQPUZDRRO&Signature=xJJw%2BwbS%2B32IMg6KojKGPq1TwKw%3D&Expires=1639516490"
 ```
 
-Once the download has finished you need to make sure that it matches the MD5 checksum mentioned on the website: [tarball snapshot](https://github.com/binance-chain/bsc-snapshots)
-**_This command can take some time to run and you will not see a progress indicator_**
+Once the download has finished you need to make sure that it matches the MD5 checksum mentioned on the website: [tarball snapshot](https://github.com/bnb-chain/bsc-snapshots)
+**_This command can take some time to run (maybe hours) and you will not see a progress indicator_**
 ```
 md5sum /home/geth/mainnet/geth.tar.lz4
 ```
 
-## Step 11.2 - Download and unpack the tarball image (advanced users)
-**_Skip this step if you completed step 11.1_**
-
-This page should contain the latest image: [tarball snapshot](https://github.com/binance-chain/bsc-snapshots) - copy one of the geth.tar.gz URL's for later use.
-*For best performance please pick the endpoint that is geographically closest to your server*
-
-Use this command to download the file - remember to **_keep the quotations_** for the URL:
-**DO NOT USE THIS EXAMPLE URL AS IT WILL BE SIGNIFICANTLY OUT OF DATE**
-
-This command will download and unpack the snapshot at the same time. The output will not reflect the fact we used "strip-component=2" but the result should respect that flag. The only other concern is if the folder structure changes in future updates.
-Additionally, this command now utilises a program called `screen`, so the process will not halt if you lose your connection.
-```
-cd /home/geth/mainnet
-apt install screen lz4 -y
-screen -dm bash -c 'wget "https://tf-dex-prod-public-snapshot.s3-accelerate.amazonaws.com/geth-20211202.tar.gz?AWSAccessKeyId=AKIAYINE6SBQPUZDDRRO&Signature=e38bDFq%2BTlpgzXpZLkwvsDNyk%3D&Expires=1641059846" -O - | tar -I lz4 --strip-components=2 -xf -'
-```
-To attach to screen type `screen -r` and to detach press `CTRL+a d`
-
-## Step 12 - Unpack tarball
-
-*Skip this step if you completed step 11.2*
-
-We need to remove two redundant patent folders "server/data-seed"
+Because of the way the snapshot is packaged we need to remove two parent folders. This is easier than having to deal with the syntax of the move command and traversing the linux file system
 ```
 apt install lz4 -y
 cd /home/geth/mainnet && exec nohup tar -I lz4 --strip-components=2 -xf /home/geth/mainnet/geth.tar.lz4
 ```
-
-## Step 13 - Set geth as owner
+  </p></blockquote>
+  </details>
+  
+## Step 12 - Set geth as owner
 
 Once the extraction has completed you will need to perform another chown command:
 ```
 chown -R geth.geth /home/geth/*
 ```
 
-## Step 14 - Start geth
+## Step 13 - Start geth
 
 Start the geth service:
 ```
 systemctl start geth
 ```
 
-## Step 15 - Now what?
+## Step 14 - Now what?
 
 If you are unfamiliar with how to monitor the geth service and/or the syncing process
 
