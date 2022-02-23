@@ -93,7 +93,7 @@ rm -rf /home/geth/mainnet/geth/*
 ```
 
 ## Step 11 - Stream and unpack the tarball image (saves considerable time and space)
-**If you have an unreliable connection or this step fails then please try [Alternative to Step 11](https://github.com/charliedimaggio/bsc-fullnode-installer/edit/main/snapshot-sync.md#alternative-to-step-11---download-the-tarball-image) **
+**If you have an unreliable connection or this step fails then please try [Alternative to Step 11](https://github.com/charliedimaggio/bsc-fullnode-installer/blob/main/snapshot-sync.md#alternative-to-step-11---download-the-tarball-image) **
 
 This page should contain the latest image: [tarball snapshot](https://github.com/bnb-chain/bsc-snapshots) - copy one of the geth.tar.gz URL's for later use.
 *For best performance please pick the endpoint that is geographically closest to your server*
